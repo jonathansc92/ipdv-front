@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import TokenService from "@/services/TokenService";
 import LoginView from '../views/LoginView.vue';
 import HomeView from '../views/HomeView.vue';
+import Departments from '../views/departments/IndexView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,15 @@ const router = createRouter({
       meta: {
         title: 'Home',
         requiresAuth: true,
+      }
+    },
+    {
+      path: '/departments',
+      name: 'departments',
+      component: Departments,
+      meta: {
+        title: 'Departamentos',
+        requiresAuth: false,
       }
     },
   ]
