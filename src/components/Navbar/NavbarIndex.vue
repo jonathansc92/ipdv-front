@@ -2,11 +2,6 @@
 <template>
     <div class="card relative z-2">
         <Menubar :model="items">
-            <template #start>
-                <div class="soha-logo secondary font-medium text-xl uppercase mr-2">
-                    SOHA
-                </div>
-            </template>
         </Menubar>
     </div>
 </template>
@@ -21,7 +16,23 @@ export default {
 
     data() {
         return {
-            items: [],
+            items: [
+                {
+                    label: 'Centro de Custos',
+                    icon: 'pi pi-sort-alt',
+                    route: '/centro-de-custos'
+                },
+                {
+                    label: 'Departamentos',
+                    icon: 'pi pi-building',
+                    route: '/departamentos'
+                },
+                {
+                    label: 'Usuários',
+                    icon: 'pi pi-user',
+                    route: '/usuarios'
+                },
+            ],
         };
     }
 };
