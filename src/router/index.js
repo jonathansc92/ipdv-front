@@ -3,6 +3,7 @@ import TokenService from "@/services/TokenService";
 import LoginView from '../views/LoginView.vue';
 import HomeView from '../views/HomeView.vue';
 import Departments from '../views/departments/IndexView.vue';
+import CostCenters from '../views/cost-centers/IndexView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +27,16 @@ const router = createRouter({
       }
     },
     {
-      path: '/departments',
+      path: '/centro-de-custos',
+      name: 'cost-centers',
+      component: CostCenters,
+      meta: {
+        title: 'Centro de Custos',
+        requiresAuth: false,
+      }
+    },
+    {
+      path: '/departamentos',
       name: 'departments',
       component: Departments,
       meta: {
@@ -41,7 +51,7 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const authToken = TokenService.getToken();
 
-  document.title = `SOHA - ${to.meta.title}`
+  document.title = `${to.meta.title}`
 
   if (requiresAuth) {
     if (authToken) {

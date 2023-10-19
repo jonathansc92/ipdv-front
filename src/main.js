@@ -1,11 +1,13 @@
 //theme
 import '@/assets/themes/material/material-light/standard/indigo/theme.scss';
-    
+
 //core
 import "primevue/resources/primevue.min.css";
 
 // framework css
 import '/node_modules/primeflex/primeflex.css';
+
+import 'primeicons/primeicons.css';
 
 import '@/assets/main.scss';
 
