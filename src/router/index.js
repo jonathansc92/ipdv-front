@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue';
 import HomeView from '../views/HomeView.vue';
 import Departments from '../views/departments/IndexView.vue';
 import CostCenters from '../views/cost-centers/IndexView.vue';
+import Users from '../views/users/IndexView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,15 @@ const router = createRouter({
       component: Departments,
       meta: {
         title: 'Departamentos',
+        requiresAuth: false,
+      }
+    },
+    {
+      path: '/usuarios',
+      name: 'users',
+      component: Users,
+      meta: {
+        title: 'Usuários',
         requiresAuth: false,
       }
     },

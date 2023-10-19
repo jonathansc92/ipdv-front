@@ -76,7 +76,7 @@ import ButtonComponent from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import { authStore } from "@/stores/Auth";
-import UserForm from "../../views/User/_Form.vue";
+import UserForm from "../../views/users/_Form.vue";
 
 export default {
     setup: () => ({ v$: useVuelidate() }),
