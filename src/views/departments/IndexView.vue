@@ -4,12 +4,9 @@
         <div class="card">
             <Toolbar class="mb-4">
                 <template #start>
-                    <Button label="New" icon="pi pi-plus" severity="success" class="mr-2" @click="openNew" />
-                    <Button label="Delete" icon="pi pi-trash" severity="danger" @click="confirmDeleteSelected"
-                        :disabled="!selectedProducts || !selectedProducts.length" />
+                    <Button label="Cadastrar" icon="pi pi-plus" severity="success" class="mr-2" @click="openNew" />
                 </template>
             </Toolbar>
-
             <DataTable ref="dt" :value="departments.getDepartments" v-model:selection="selectedProducts" dataKey="id"
                 :paginator="true" :rows="10" :filters="filters"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -17,7 +14,9 @@
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                 <template #header>
                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                        <h4 class="m-0">Manage Products</h4>
+                        <h4 class="m-0">
+                            Gerenciar Departamentos
+                        </h4>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
                             <InputText v-model="filters['global'].value" placeholder="Search..." />
@@ -35,7 +34,6 @@
                 </Column>
             </DataTable>
         </div>
-
         <Dialog v-model:visible="productDialog" :style="{ width: '450px' }" header="Product Details" :modal="true"
             class="p-fluid">
             <div class="field">
@@ -49,7 +47,6 @@
                 <Button label="Save" icon="pi pi-check" text @click="saveProduct" />
             </template>
         </Dialog>
-
         <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
             <div class="confirmation-content">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -60,7 +57,6 @@
                 <Button label="Yes" icon="pi pi-check" text @click="deleteProduct" />
             </template>
         </Dialog>
-
         <Dialog v-model:visible="deleteProductsDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
             <div class="confirmation-content">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -108,44 +104,50 @@ const openNew = () => {
     submitted.value = false;
     productDialog.value = true;
 };
+
 const hideDialog = () => {
     productDialog.value = false;
     submitted.value = false;
 };
+
 const saveProduct = () => {
     submitted.value = true;
 
     if (product.value.id) {
-        products.value[findIndexById(product.value.id)] = product.value;
+        departments.getDepartments[findIndexById(product.value.id)] = product.value;
     } else {
         product.value.id = createId();
         product.value.description = 'product';
         console.log(product.value)
-        products.value.push(product.value);
+        departments.getDepartments.push(product.value);
         // toast.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
     }
 
     productDialog.value = false;
     product.value = {};
 };
+
 const editProduct = (prod) => {
     product.value = { ...prod };
     productDialog.value = true;
 };
+
 const confirmDeleteProduct = (prod) => {
     product.value = prod;
     deleteProductDialog.value = true;
 };
+
 const deleteProduct = () => {
     products.value = products.value.filter(val => val.id !== product.value.id);
     deleteProductDialog.value = false;
     product.value = {};
     // toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
 };
+
 const findIndexById = (id) => {
     let index = -1;
-    for (let i = 0; i < products.value.length; i++) {
-        if (products.value[i].id === id) {
+    for (let i = 0; i < departments.getDepartments.length; i++) {
+        if (departments.getDepartments[i].id === id) {
             index = i;
             break;
         }
@@ -153,6 +155,7 @@ const findIndexById = (id) => {
 
     return index;
 };
+
 const createId = () => {
     let id = '';
     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -161,9 +164,7 @@ const createId = () => {
     }
     return id;
 }
-const confirmDeleteSelected = () => {
-    deleteProductsDialog.value = true;
-};
+
 const deleteSelectedProducts = () => {
     products.value = products.value.filter(val => !selectedProducts.value.includes(val));
     deleteProductsDialog.value = false;
