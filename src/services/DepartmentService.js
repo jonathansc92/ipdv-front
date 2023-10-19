@@ -4,10 +4,16 @@ let url = '/api/departments';
 
 class DepartmentService {
     async get() {
-        return await httpCommon.http.get(`${url}`);
+        return await httpCommon.http.get(url);
     }
-    // async logout() {
-    //     return await httpCommon.http.post(`${url}/logout`);
-    // }
+    async create(data) {
+        return await httpCommon.http.post(url, data);
+    }
+    async update(id, data) {
+        return await httpCommon.http.put(`${url}/${id}`, data);
+    }
+    async delete(id) {
+        return await httpCommon.http.delete(`${url}/${id}`);
+    }
 }
 export default new DepartmentService()

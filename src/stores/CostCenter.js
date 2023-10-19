@@ -22,7 +22,6 @@ export const costCenterStore = defineStore('costCenterStore', {
     actions: {
         async get() {
             await CostCenterService.get().then(async response => {
-                console.log(response)
                 this.costCenters = response.data.data;
 
                 toastr.success(response.data.message);
@@ -37,7 +36,6 @@ export const costCenterStore = defineStore('costCenterStore', {
         },
         async create(data) {
             await CostCenterService.create(data).then(async response => {
-                console.log(response)
                 this.costCenters.push(data.data);
                 toastr.success(response.data.message);
             }).catch(async (error) => {

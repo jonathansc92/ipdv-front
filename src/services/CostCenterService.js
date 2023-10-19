@@ -16,4 +16,4 @@ class CostCenterService {
         return await httpCommon.http.delete(`${url}/${id}`);
     }
 }
-export default new CostCenterService()
+export default new CostCenterService();
