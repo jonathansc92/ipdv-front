@@ -2,42 +2,50 @@
 <template>
     <div class="card relative z-2">
         <Menubar :model="items">
+            <template #end>
+                <Button @click="logout" icon="pi pi-fw pi-power-off" label="Sair" link />
+            </template>
         </Menubar>
     </div>
 </template>
 
 <script>
 import Menubar from 'primevue/menubar';
+import Button from 'primevue/button';
+import { authStore } from '@/stores/Auth';
 
 export default {
     components: {
-        Menubar
+        Menubar,
+        Button
     },
 
     data() {
         return {
+            authStore: authStore(),
             items: [
                 {
                     label: 'Centro de Custos',
                     icon: 'pi pi-sort-alt',
-                    route: '/centro-de-custos'
+                    url: '/centro-de-custos'
                 },
                 {
                     label: 'Departamentos',
                     icon: 'pi pi-building',
-                    route: '/departamentos'
+                    url: '/departamentos'
                 },
                 {
                     label: 'Usuários',
                     icon: 'pi pi-user',
-                    route: '/usuarios'
+                    url: '/usuarios'
                 },
-                {
-                    label: 'Sair',
-                    icon: 'pi pi-fw pi-power-off'
-                }
             ],
         };
+    },
+    methods: {
+        async logout() {
+            await this.authStore.logout();
+        }
     }
 };
 </script>
