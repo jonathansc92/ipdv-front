@@ -16,8 +16,6 @@ const setup = () => {
                     }
                 }
 
-                console.log(config)
-
                 return config;
             },
             (error) => {
@@ -31,9 +29,11 @@ const setup = () => {
             },
             async (error) => {
                 const originalConfig = error.config;
-
-                if (typeof originalConfig !== "undefined" && originalConfig.url !== "/api/login" && error.response) {
-                    if (error.response.status === 401 && !originalConfig._retry) {
+                
+                if (typeof originalConfig !== "undefined" && originalConfig.url !== "/api/login") {
+                    console.log(error)
+                    if (!error.response.status && !originalConfig._retry) {
+                        console.log('oi')
                         await authStore().logout();
 
                         return httpCommon[instance](originalConfig);

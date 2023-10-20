@@ -31,9 +31,21 @@ Neste repositório foram entregues todos os requisitos.
     docker-compose up -d
 ```
 
+## Executar Manualmente
+- Rodar na raiz do projeto o comando
+```
+    npm i
+```
+- Rodar o comando
+```
+    npm run serve
+```
+
 ## Rotas
 - Login GET [http://localhost:5173/login](http://localhost:5173/)
-- Home GET [http://localhost:5173/](http://localhost:5173/)
+- Centro de Custos GET [http://localhost:5173/centro-de-custos](http://localhost:5173/centro-de-custos)
+- Departamentos GET [http://localhost:5173/departamentos](http://localhost:5173/departamentos)
+- Usuários GET [http://localhost:5173/usuarios](http://localhost:5173/usuarios)
 
 ## Autor
 - Autor - Jonathan Cruz

@@ -7,8 +7,8 @@
                     <Button label="Cadastrar" icon="pi pi-plus" severity="success" class="mr-2" @click="openNew" />
                 </template>
             </Toolbar>
-            <DataTable ref="dt" :value="users.getusers" dataKey="id" :loading="loading" :paginator="true"
-                :rows="10" :filters="filters"
+            <DataTable ref="dt" :value="users.getUsers" dataKey="id" :loading="loading" :paginator="true" :rows="10"
+                :filters="filters"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                 :rowsPerPageOptions="[5, 10, 25]"
                 currentPageReportTemplate="Mostrando {first} até {last} de {totalRecords}">
@@ -36,7 +36,7 @@
                 </Column>
             </DataTable>
         </div>
-        <Dialog v-model:visible="objDialog" :style="{ width: '450px' }" header="Departamento" :modal="true" class="p-fluid">
+        <Dialog v-model:visible="objDialog" :style="{ width: '450px' }" header="Usuário" :modal="true" class="p-fluid">
             <div class="field">
                 <label for="name">Nome</label>
                 <InputText id="name" v-model.trim="user.name" required="true" autofocus
@@ -50,25 +50,15 @@
                 <small class="p-error" v-if="submitted && !user.email">{{ messages.REQUIRED }}</small>
             </div>
             <div class="field">
-                <label for="costCenter" class="mb-3">Departamento</label>
-                <Dropdown :class="{ 'p-invalid': submitted && !user.department_id }" id="costCenter"
-                    v-model="user.department_id" :options="costCenters.getCostCenters" optionLabel="description"
-                    optionValue="id" placeholder="Selecione um centro de custo">
-                </Dropdown>
-                <small class="p-error" v-if="submitted && !user.cost_center_id">{{ messages.REQUIRED }}</small>
-            </div>
-            <!-- <div class="field">
                 <label for="name">Senha</label>
-                <InputText id="email" v-model.trim="user.email" required="true" autofocus
-                    :class="{ 'p-invalid': submitted && !user.email }" />
-                <small class="p-error" v-if="submitted && !user.email">{{ messages.REQUIRED }}</small>
+                <Password id="email" v-model="user.password" autofocus :feedback="false" toggleMask />
             </div>
             <div class="field">
-                <label for="name">Confirmar Senha</label>
-                <InputText id="email" v-model.trim="user.email" required="true" autofocus
-                    :class="{ 'p-invalid': submitted && !user.email }" />
-                <small class="p-error" v-if="submitted && !user.email">{{ messages.REQUIRED }}</small>
-            </div> -->
+                <label for="department" class="mb-3">Departamento</label>
+                <Dropdown id="department" v-model="user.department_id" :options="departments.getDepartments"
+                    optionLabel="description" optionValue="id" placeholder="Selecione um departamento">
+                </Dropdown>
+            </div>
             <template #footer>
                 <Button label="Cancelar" icon="pi pi-times" text @click="hideDialog" :disabled="disabledBtn" />
                 <Button label="Salvar" icon="pi pi-check" :loading="loadingBtn" text @click="save" />
@@ -99,6 +89,7 @@ import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
 import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
+import Password from 'primevue/password';
 
 import { userStore } from "@/stores/user";
 import { departmentStore } from "@/stores/Department";
@@ -145,24 +136,26 @@ const hideDialog = () => {
 
 const save = async () => {
     // if (user.value.user && user.value.cost_center_id) {
-        submitted.value = true;
-        loadingBtn.value = true;
-        disabledBtn.value = true;
+    submitted.value = true;
+    loadingBtn.value = true;
+    disabledBtn.value = true;
 
-        const form = {
-            description: user.value.description,
-            cost_center_id: user.value.cost_center_id
-        }
+    const form = {
+        name: user.value.name,
+        password: user.value.password,
+        department_id: user.value.department_id,
+        email: user.value.email
+    }
 
-        if (user.value.id) {
-            await users.update(user.value.id, form);
-        } else {
-            await users.create(form);
-        }
+    if (user.value.id) {
+        await users.update(user.value.id, form);
+    } else {
+        await users.create(form);
+    }
 
-        objDialog.value = false;
-        loadingBtn.value = false;
-        disabledBtn.value = false;
+    objDialog.value = false;
+    loadingBtn.value = false;
+    disabledBtn.value = false;
     // }
 };
 

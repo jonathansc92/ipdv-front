@@ -36,7 +36,7 @@ export const userStore = defineStore('userStore', {
         },
         async create(data) {
             await UserService.create(data).then(async response => {
-                this.users.push(data.data);
+                this.users.push(response.data.data);
                 toastr.success(response.data.message);
             }).catch(async (error) => {
                 if (error) {

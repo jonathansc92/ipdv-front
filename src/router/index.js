@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TokenService from "@/services/TokenService";
 import LoginView from '../views/LoginView.vue';
-import HomeView from '../views/HomeView.vue';
 import Departments from '../views/departments/IndexView.vue';
 import CostCenters from '../views/cost-centers/IndexView.vue';
 import Users from '../views/users/IndexView.vue';
@@ -19,21 +18,12 @@ const router = createRouter({
       }
     },
     {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-      meta: {
-        title: 'Home',
-        requiresAuth: true,
-      }
-    },
-    {
       path: '/centro-de-custos',
       name: 'cost-centers',
       component: CostCenters,
       meta: {
         title: 'Centro de Custos',
-        requiresAuth: false,
+        requiresAuth: true,
       }
     },
     {
@@ -42,8 +32,8 @@ const router = createRouter({
       component: Departments,
       meta: {
         title: 'Departamentos',
-        requiresAuth: false,
-      }
+        requiresAuth: true
+      },
     },
     {
       path: '/usuarios',
@@ -51,7 +41,7 @@ const router = createRouter({
       component: Users,
       meta: {
         title: 'Usuários',
-        requiresAuth: false,
+        requiresAuth: true,
       }
     },
   ]
@@ -71,7 +61,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     if (to.path === '/login' && authToken) {
-      next('/');
+      next('/centro-de-custos');
     } else {
       next();
     }

@@ -32,6 +32,10 @@ export default {
                     icon: 'pi pi-user',
                     route: '/usuarios'
                 },
+                {
+                    label: 'Sair',
+                    icon: 'pi pi-fw pi-power-off'
+                }
             ],
         };
     }

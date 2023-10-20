@@ -20,35 +20,25 @@ export const authStore = defineStore('authStore', {
     actions: {
         async login(data) {
             await AuthService.login(data).then(async response => {
-                TokenService.setToken(response.data.token);
-                MeService.setUser(response.data.user);
+                console.log(response)
+                TokenService.setToken(response.data.data.token);
 
                 toastr.success(response.data.message);
 
-                this.router.push('/');
+                this.router.push('/centro-de-custos');
             }).catch(async (error) => {
-                if (error.response.status === 400) {
+                console.log(error)
+                if (error.response.data) {
                     toastr.error(error.response.data.message);
-                }
-                else {
-                    toastr.error("Erro interno, contate o administrador!");
                 }
                 this.router.push('/login');
             });
         },
         async logout() {
-            await AuthService.logout().then(async response => {
                 TokenService.removeToken();
                 MeService.removeUser();
 
-                toastr.success(response.data.message);
-
                 this.router.push('/login');
-            }).catch(async () => {
-                TokenService.removeToken();
-                MeService.removeUser();
-                this.router.push('/login');
-            });
         },
     },
 })
