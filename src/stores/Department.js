@@ -36,7 +36,7 @@ export const departmentStore = defineStore('departmentStore', {
         },
         async create(data) {
             await DepartmentService.create(data).then(async response => {
-                this.departments.push(data.data);
+                this.departments.push(response.data.data);
                 toastr.success(response.data.message);
             }).catch(async (error) => {
                 if (error) {

@@ -93,7 +93,6 @@ onMounted(async () => {
     loading.value = true;
     await costCenters.get();
     loading.value = false;
-    console.log(costCenters.getCostCenters)
 });
 
 const openNew = () => {

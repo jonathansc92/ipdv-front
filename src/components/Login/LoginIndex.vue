@@ -12,7 +12,8 @@
                 Login
             </div>
             <div class="col-12 p-6">
-                <form @submit.prevent="handleSubmit(!v$.$invalid)" class="formgrid grid">
+                <register-view v-if="register" />
+                <form v-else @submit.prevent="handleSubmit(!v$.$invalid)" class="formgrid grid">
                     <div class="field col-12">
                         <label for="email">
                             Email
@@ -48,23 +49,15 @@
                         <ButtonComponent class="w-full" type="submit" label="ENTRAR" :disabled="v$.$invalid"
                             :loading="loading" outlined />
                     </div>
-                    <div class="col-12 flex align-items-center justify-content-center mt-4">
-                        Ou
-                    </div>
-                    <div class="col-12 flex align-items-center justify-content-center mt-4">
-                        <ButtonComponent class="w-full" type="button" label="CADASTRAR" @click="visible = true"
-                            :loading="loading" />
-                    </div>
                 </form>
+                <div class="col-12 flex align-items-center justify-content-center mt-4">
+                    Ou
+                </div>
+                <div class="col-12 flex align-items-center justify-content-center mt-4">
+                    <ButtonComponent class="w-full" type="button" :label="labelBtn" @click="showRegister()" />
+                </div>
             </div>
         </div>
-        <Dialog v-model:visible="visible" modal header="Cadastrar" :style="{ width: '50vw' }">
-            <user-form />
-            <template #footer>
-                <ButtonComponent label="No" icon="pi pi-times" @click="visible = false" text />
-                <ButtonComponent label="Yes" icon="pi pi-check" @click="visible = false" autofocus />
-            </template>
-        </Dialog>
     </div>
 </template>
 
@@ -73,18 +66,16 @@ import { ref } from "vue";
 import { email, required, helpers, minLength, maxLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ButtonComponent from 'primevue/button';
-import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import { authStore } from "@/stores/Auth";
-import UserForm from "../../views/users/_Form.vue";
+import RegisterView from "../../views/auth/RegisterView.vue";
 
 export default {
     setup: () => ({ v$: useVuelidate() }),
     components: {
         ButtonComponent,
         InputText,
-        Dialog,
-        UserForm
+        RegisterView
     },
     data() {
         return {
@@ -96,7 +87,8 @@ export default {
             disabled: ref(true),
             loading: ref(false),
             store: authStore(),
-            visible: ref(false)
+            register: ref(false),
+            labelBtn: 'CADASTRAR'
         }
     },
     validations() {
@@ -127,6 +119,15 @@ export default {
 
             await this.store.login(this.form);
             this.loading = false;
+        },
+        showRegister() {
+            if (!this.register) {
+                this.register = ref(true);
+                this.labelBtn = 'VOLTAR PARA LOGIN';
+            } else {
+                this.register = ref(false);
+                this.labelBtn = 'CADASTRAR';
+            }
         }
     },
 }
@@ -145,4 +146,5 @@ export default {
     .container {
         background: var(--color-white) none repeat scroll 0 0;
     }
-}</style>
+}
+</style>
