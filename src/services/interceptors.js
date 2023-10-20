@@ -8,7 +8,7 @@ const setup = () => {
             (config) => {
                 config.headers["Content-Type"] = "application/json";
 
-                if (config.url !== '/api/auth/login') {
+                if (config.url !== '/api/login') {
                     const token = TokenService.getLocalAccessToken();
 
                     if (token) {
@@ -32,7 +32,7 @@ const setup = () => {
             async (error) => {
                 const originalConfig = error.config;
 
-                if (typeof originalConfig !== "undefined" && originalConfig.url !== "/api/auth/login" && error.response) {
+                if (typeof originalConfig !== "undefined" && originalConfig.url !== "/api/login" && error.response) {
                     if (error.response.status === 401 && !originalConfig._retry) {
                         await authStore().logout();
 
