@@ -108,18 +108,21 @@ const hideDialog = () => {
 
 const save = async () => {
     submitted.value = true;
-    loadingBtn.value = true;
-    disabledBtn.value = true;
 
-    if (costCenter.value.id) {
-        await costCenters.update(costCenter.value.id, costCenter.value);
-    } else {
-        await costCenters.create(costCenter.value);
+    if (costCenter.value.description) {
+        loadingBtn.value = true;
+        disabledBtn.value = true;
+
+        if (costCenter.value.id) {
+            await costCenters.update(costCenter.value.id, costCenter.value);
+        } else {
+            await costCenters.create(costCenter.value);
+        }
+
+        objDialog.value = false;
+        loadingBtn.value = false;
+        disabledBtn.value = false;
     }
-
-    objDialog.value = false;
-    loadingBtn.value = false;
-    disabledBtn.value = false;
 };
 
 const edit = (cost) => {
@@ -139,7 +142,7 @@ const deleteObj = async () => {
     await costCenters.delete(costCenter.value.id);
 
     disabledDelete.value = false;
-    loadingBtnDelete.value = true;
+    loadingBtnDelete.value = false;
     deleteDialog.value = false;
 };
 </script>

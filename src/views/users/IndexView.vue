@@ -51,7 +51,9 @@
             </div>
             <div class="field">
                 <label for="name">Senha</label>
-                <Password id="email" v-model="user.password" autofocus :feedback="false" toggleMask />
+                <Password id="email" v-model="user.password" autofocus :feedback="false" toggleMask
+                    :class="{ 'p-invalid': submitted && !user.password && !user.id }" />
+                <small class="p-error" v-if="submitted && !user.email && !user.id">{{ messages.REQUIRED }}</small>
             </div>
             <div class="field">
                 <label for="department" class="mb-3">Departamento</label>
@@ -135,28 +137,31 @@ const hideDialog = () => {
 };
 
 const save = async () => {
-    // if (user.value.user && user.value.cost_center_id) {
     submitted.value = true;
-    loadingBtn.value = true;
-    disabledBtn.value = true;
 
-    const form = {
-        name: user.value.name,
-        password: user.value.password,
-        department_id: user.value.department_id,
-        email: user.value.email
+    if (user.value.name && user.value.email) {
+        loadingBtn.value = true;
+        disabledBtn.value = true;
+
+        const form = {
+            name: user.value.name,
+            password: user.value.password,
+            department_id: user.value.department_id ? user.value.department_id : null,
+            email: user.value.email
+        }
+
+        if (user.value.id) {
+            await users.update(user.value.id, form);
+        } else {
+            if (user.value.password) {
+                await users.create(form);
+            }
+        }
+
+        objDialog.value = false;
+        loadingBtn.value = false;
+        disabledBtn.value = false;
     }
-
-    if (user.value.id) {
-        await users.update(user.value.id, form);
-    } else {
-        await users.create(form);
-    }
-
-    objDialog.value = false;
-    loadingBtn.value = false;
-    disabledBtn.value = false;
-    // }
 };
 
 const edit = (cost) => {
@@ -176,7 +181,7 @@ const deleteObj = async () => {
     await users.delete(user.value.id);
 
     disabledDelete.value = false;
-    loadingBtnDelete.value = true;
+    loadingBtnDelete.value = false;
     deleteDialog.value = false;
 };
 </script>

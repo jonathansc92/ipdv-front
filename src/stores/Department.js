@@ -40,6 +40,7 @@ export const departmentStore = defineStore('departmentStore', {
                 toastr.success(response.data.message);
             }).catch(async (error) => {
                 if (error) {
+                    console.log(error)
                     toastr.error(error.response.data.message);
                 }
                 else {

@@ -125,8 +125,9 @@ const hideDialog = () => {
 };
 
 const save = async () => {
-    // if (department.value.department && department.value.cost_center_id) {
-        submitted.value = true;
+    submitted.value = true;
+
+    if (department.value.description && department.value.cost_center_id) {
         loadingBtn.value = true;
         disabledBtn.value = true;
 
@@ -144,7 +145,7 @@ const save = async () => {
         objDialog.value = false;
         loadingBtn.value = false;
         disabledBtn.value = false;
-    // }
+    }
 };
 
 const edit = (cost) => {
@@ -164,7 +165,7 @@ const deleteObj = async () => {
     await departments.delete(department.value.id);
 
     disabledDelete.value = false;
-    loadingBtnDelete.value = true;
+    loadingBtnDelete.value = false;
     deleteDialog.value = false;
 };
 </script>
