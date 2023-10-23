@@ -9,7 +9,7 @@
         </div>
         <div class="col-12 lg:col-4 xl:col-4 container flex align-content-center justify-content-center flex-wrap">
             <div class="font-medium text-xl uppercase title">
-                Login
+                {{ title }}
             </div>
             <div class="col-12 p-6">
                 <register-view v-if="register" />
@@ -88,7 +88,8 @@ export default {
             loading: ref(false),
             store: authStore(),
             register: ref(false),
-            labelBtn: 'CADASTRAR'
+            labelBtn: 'CADASTRAR',
+            title: 'Login'
         }
     },
     validations() {
@@ -124,9 +125,11 @@ export default {
             if (!this.register) {
                 this.register = ref(true);
                 this.labelBtn = 'VOLTAR PARA LOGIN';
+                this.title = 'Cadastrar';
             } else {
                 this.register = ref(false);
                 this.labelBtn = 'CADASTRAR';
+                this.title = 'Login';
             }
         }
     },

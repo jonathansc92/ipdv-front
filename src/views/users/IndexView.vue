@@ -44,16 +44,17 @@
                 <small class="p-error" v-if="submitted && !user.name">{{ messages.REQUIRED }}</small>
             </div>
             <div class="field">
-                <label for="name">Email</label>
+                <label for="email">Email</label>
                 <InputText id="email" v-model.trim="user.email" required="true" autofocus
-                    :class="{ 'p-invalid': submitted && !user.email }" />
+                    :class="{ 'p-invalid': submitted && !user.email && !isValidEmail }" type="email" />
                 <small class="p-error" v-if="submitted && !user.email">{{ messages.REQUIRED }}</small>
+                <small class="p-error" v-if="submitted && !isValidEmail">{{ messages.IS_VALID_EMAIL }}</small>
             </div>
             <div class="field">
                 <label for="name">Senha</label>
-                <Password id="email" v-model="user.password" autofocus :feedback="false" toggleMask
+                <Password id="password" v-model="user.password" autofocus :feedback="false" toggleMask
                     :class="{ 'p-invalid': submitted && !user.password && !user.id }" />
-                <small class="p-error" v-if="submitted && !user.email && !user.id">{{ messages.REQUIRED }}</small>
+                <small class="p-error" v-if="submitted && !user.password && !user.id">{{ messages.REQUIRED }}</small>
             </div>
             <div class="field">
                 <label for="department" class="mb-3">Departamento</label>
@@ -97,6 +98,7 @@ import { userStore } from "@/stores/user";
 import { departmentStore } from "@/stores/Department";
 
 import messages from '../../constants/messages';
+import { useValidate } from '../../composables/useValidate';
 
 const dt = ref();
 const objDialog = ref(false);
@@ -115,6 +117,8 @@ const loadingBtn = ref(false);
 const disabledBtn = ref(false);
 const loadingBtnDelete = ref(false);
 const disabledDelete = ref(false);
+
+const isValidEmail = ref(false);
 
 onMounted(async () => {
     loading.value = true;
@@ -138,8 +142,9 @@ const hideDialog = () => {
 
 const save = async () => {
     submitted.value = true;
+    isValidEmail.value = useValidate().validateEmail(user.value.email);
 
-    if (user.value.name && user.value.email) {
+    if (user.value.name && user.value.email && isValidEmail.value) {
         loadingBtn.value = true;
         disabledBtn.value = true;
 
